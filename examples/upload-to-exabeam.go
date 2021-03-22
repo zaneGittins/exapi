@@ -72,9 +72,6 @@ func parseConfig(configFile string) {
 	// Get password for API from config.
 	APIPassword = cfg.Section(exabeamSection).Key("password").String()
 
-	// Get context table name from config.
-	ContextTable = cfg.Section(exabeamSection).Key("context_table").String()
-
 	// Get AA host name from config.
 	AAHost = cfg.Section(exabeamSection).Key("host").String()
 
@@ -82,6 +79,7 @@ func parseConfig(configFile string) {
 
 func main() {
 	config := flag.String("config", "config.ini", "path to config.ini file, optional.")
+	table := flag.String("table", "", "name of context table to upload to.")
 	flag.Parse()
 
 	parseConfig(*config)
@@ -93,5 +91,6 @@ func main() {
 		data = append(data, scanner.Text())
 	}
 
+	ContextTable = *table
 	UploadResultsToExabeam(data)
 }
